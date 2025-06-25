@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -9,70 +8,52 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #0d0d0d;
-      color: #f2f2f2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
+      background-color: #111;
+      color: #eee;
+      padding: 20px;
     }
     .container {
       max-width: 600px;
-      padding: 20px;
+      margin: auto;
       text-align: center;
     }
     h1 {
       font-size: 2em;
-      margin-bottom: 10px;
+      color: #ff4444;
     }
-    
     button {
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    
       background-color: #8b0000 !important;
       color: white;
       border: none;
-      padding: 15px 25px;
+      padding: 14px 20px;
       font-size: 1em;
+      border-radius: 10px;
       cursor: pointer;
-      border-radius: 8px;
-      margin-top: 20px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
     button:hover {
       background-color: #a30000 !important;
+      transform: scale(1.03);
     }
-    .question, .result, .start {
-      display: none;
-    }
-    .visible {
-      display: block;
-    }
-    .answers 
-    button {
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    
+    .answers button {
       display: block;
       width: 100%;
       margin: 10px 0;
+    }
+    .hidden {
+      display: none;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 20px;
       background-color: #222;
-    }
-    img.cover {
-      margin-top: 30px;
-      max-width: 100%;
-      height: auto;
-      border: 1px solid #444;
       border-radius: 10px;
-    }
-    
-    a.link {
-      color: #ff6666;
-      text-decoration: underline;
     }
     a.link-button {
       display: inline-block;
       margin-top: 20px;
       padding: 12px 24px;
-      background-color: #8b0000 !important;
+      background-color: #8b0000;
       color: white;
       border-radius: 8px;
       text-decoration: none;
@@ -80,136 +61,94 @@
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
     a.link-button:hover {
-      background-color: #a30000 !important;
+      background-color: #a30000;
       transform: scale(1.05);
     }
-    
-      color: #ff6666;
-      text-decoration: underline;
+    img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="start visible">
-      <img src="https://www.epsilonyayingrubu.com/Icerik/Gorsel/Urun/9786259603148.jpg" alt="Kitap Kapağı" class="cover" />
-      <h1>Sen Nasıl Bir Vampirsin?</h1>
-      <button id="startBtn">Başla</button>
+    <h1>Sen Nasıl Bir Vampirsin?</h1>
+    <img src="https://www.epsilonyayingrubu.com/Icerik/Gorsel/Urun/9786259603148.jpg" alt="Sonların Tanrısı Kitap Kapağı" />
+    <br /><br />
+    <button onclick="startQuiz()">Başla</button>
+
+    <div id="quiz" class="hidden">
+      <h2 id="question"></h2>
+      <div class="answers" id="answers"></div>
     </div>
 
-    <div class="question">
-      <h2 id="questionText"></h2>
-      <div class="answers" id="answerButtons"></div>
-    </div>
-
-    <div class="result">
-      <h2>Sen bir <span id="vampireType"></span> vampirsin!</h2>
-      <p>
-        Bu karanlık yolculukta ruhunun yansıması karşında. Vampirliğin kader mi yoksa seçim mi?
-      </p>
-      
-    <a class="link-button" href="https://www.amazon.com.tr/Sonların-Tanrısı-Jacqueline-Holland/dp/6259603142" target="_blank">📖 Kitabı Keşfet</a>
-    
-      <img src="https://www.epsilonyayingrubu.com/Icerik/Gorsel/Urun/9786259603148.jpg" alt="Sonların Tanrısı" class="cover" />
+    <div id="result" class="result hidden">
+      <h2>Vampir Türün:</h2>
+      <p id="resultText"></p>
+      <a class="link-button" href="https://www.amazon.com.tr/Sonların-Tanrısı-Jacqueline-Holland/dp/6259603142" target="_blank">📖 Kitabı Keşfet</a>
+      <img src="https://www.epsilonyayingrubu.com/Icerik/Gorsel/Urun/9786259603148.jpg" alt="Kitap Kapağı" />
     </div>
   </div>
 
   <script>
-    const startBtn = document.getElementById("startBtn");
-    const startScreen = document.querySelector(".start");
-    const questionScreen = document.querySelector(".question");
-    const resultScreen = document.querySelector(".result");
-    const questionText = document.getElementById("questionText");
-    const answerButtons = document.getElementById("answerButtons");
-    const vampireTypeSpan = document.getElementById("vampireType");
-
     const questions = [
-      {
-        q: "Gece seni dışarı çağırsa, nereye gidersin?",
-        a: ["Av peşine", "Sisli ormana", "Eski kitapların yanına", "Issız mezarlığa", "Yalnızlığa", "Tutkulara"],
-        t: ["Avcı", "Gölge", "Bilge", "Duygusal", "Yalnız", "Tutkulu"]
-      },
-      {
-        q: "Sonsuz yaşam sana ne hissettiriyor?",
-        a: ["Güç", "Gizlenme", "Bilgelik", "Acı", "Yalnızlık", "Aşk"],
-        t: ["Avcı", "Gölge", "Bilge", "Duygusal", "Yalnız", "Tutkulu"]
-      },
-      {
-        q: "Bir yabancı seni izliyor. Ne yaparsın?",
-        a: ["Saldır", "Kaybol", "İzle", "Yaklaş", "Uzaklaş", "Cezbet"],
-        t: ["Avcı", "Gölge", "Bilge", "Duygusal", "Yalnız", "Tutkulu"]
-      },
-      {
-        q: "Kalbinde ne taşıyorsun?",
-        a: ["Öfke", "Karanlık", "Anılar", "Ayrılıklar", "Sessizlik", "İhtiras"],
-        t: ["Avcı", "Gölge", "Bilge", "Duygusal", "Yalnız", "Tutkulu"]
-      },
-      {
-        q: "Geceleri ne düşünürsün?",
-        a: ["Kan", "Gölge", "Zaman", "Kayıp", "Hiçlik", "Aşk"],
-        t: ["Avcı", "Gölge", "Bilge", "Duygusal", "Yalnız", "Tutkulu"]
-      },
-      {
-        q: "Birini dönüştürmek istesen neden?",
-        a: ["Güçlü olmak", "Gizlemek", "Öğretmek", "Sevgi", "Yalnız kalmamak", "Aşkla bağlanmak"],
-        t: ["Avcı", "Gölge", "Bilge", "Duygusal", "Yalnız", "Tutkulu"]
-      },
-      {
-        q: "Bir tehlike yaklaştı, tepkin?",
-        a: ["Savaş", "Gizlen", "Plan yap", "Koruma", "Kaç", "Fedakârlık"],
-        t: ["Avcı", "Gölge", "Bilge", "Duygusal", "Yalnız", "Tutkulu"]
-      },
-      {
-        q: "En derin korkun nedir?",
-        a: ["Zayıflık", "Fark edilmek", "Unutulmak", "Sevilmemek", "Yalnız kalmak", "Terk edilmek"],
-        t: ["Avcı", "Gölge", "Bilge", "Duygusal", "Yalnız", "Tutkulu"]
-      },
-      {
-        q: "Bir geceyi nasıl geçirirsin?",
-        a: ["Avlanarak", "Saklanarak", "Yazarak", "Ağlayarak", "Sessizlikle", "Tutkuyla"],
-        t: ["Avcı", "Gölge", "Bilge", "Duygusal", "Yalnız", "Tutkulu"]
-      },
-      {
-        q: "Vampirliğin ne anlam ifade ediyor?",
-        a: ["Üstünlük", "Gizlilik", "Sonsuzluk", "Yas", "Kaçış", "Aşkın bedeli"],
-        t: ["Avcı", "Gölge", "Bilge", "Duygusal", "Yalnız", "Tutkulu"]
-      }
+      { q: "Geceyi nasıl geçirirsin?", a: ["Yalnızlıkla", "Av peşinde", "Anılarla", "Yıldızları izleyerek"] },
+      { q: "İnsanlardan sakladığın en büyük sır?", a: ["Ölümsüzüm", "Kalbim hâlâ atıyor", "Her şeyi hatırlıyorum", "Asla sevilmedim"] },
+      { q: "Bir ölümlüyü kurtarmak için neyi feda ederdin?", a: ["Kanımı", "Hatıralarımı", "Gücümü", "Hiçbir şeyi"] },
+      { q: "En büyük korkun?", a: ["Yalnızlık", "Aç kalmak", "Unutulmak", "Sevdiğimi kaybetmek"] },
+      { q: "Zamanda bir yere gidebilseydin?", a: ["1830", "Orta Çağ", "Gelecek", "Bugün"] },
+      { q: "Aşk senin için?", a: ["İmkânsız", "Lanet", "Umut", "Geçici"] },
+      { q: "Bir geceni nasıl anlatırsın?", a: ["Av", "Hüzün", "Tutku", "Kaçış"] },
+      { q: "Bir düşmanın olsa?", a: ["İhanet eden", "Unutulmak", "Aynadaki yansıman", "Zaman"] },
+      { q: "Kendini en çok hangi renkle özdeşleştirirsin?", a: ["Bordo", "Siyah", "Granit", "Mavi"] },
+      { q: "Bir kelimeyle vampirliğini tanımla.", a: ["Açlık", "Yalnızlık", "Tutku", "Özgürlük"] }
     ];
 
-    let current = 0;
-    const scores = { "Avcı": 0, "Gölge": 0, "Bilge": 0, "Duygusal": 0, "Yalnız": 0, "Tutkulu": 0 };
+    const results = [
+      "🩸 <strong>Gölgelerin Vampiri</strong>: Sessizlikte yaşarsın, kalabalıklarda kaybolursun. İçindeki yalnızlık gölgeleri bile ürkütür.",
+      "🧛‍♂️ <strong>Asil Vampir</strong>: Kurallara ve geçmişe bağlısın. Onurlu ama kırılgansın. Aşkı sonsuzlukta ararsın.",
+      "💔 <strong>Kayıp Ruh Vampiri</strong>: Anılar seni terk etmez. Her gecede geçmiş yankılanır. En büyük düşmanın kalbindir.",
+      "🔥 <strong>Ateşli Vampir</strong>: İçindeki tutku yüzyılları yakar. Aşkın da öfken de iz bırakır.",
+      "🌙 <strong>Ay Işığı Vampiri</strong>: Sessizliği ve huzuru seversin. Vampirlik senin için bir lanet değil, farkındalıktır.",
+      "⚰️ <strong>Karanlık Lanetli</strong>: Vampirlik seni değiştirdi. Kalbin karanlıkla atıyor, ama hâlâ bir kıvılcım arıyorsun."
+    ];
 
-    startBtn.addEventListener("click", () => {
-      startScreen.classList.remove("visible");
-      questionScreen.classList.add("visible");
+    let currentQuestion = 0;
+    let answerCounts = [0, 0, 0, 0];
+
+    function startQuiz() {
+      document.querySelector("button").classList.add("hidden");
+      document.getElementById("quiz").classList.remove("hidden");
       showQuestion();
-    });
+    }
 
     function showQuestion() {
-      const q = questions[current];
-      questionText.textContent = q.q;
-      answerButtons.innerHTML = "";
-      q.a.forEach((ans, idx) => {
+      const q = questions[currentQuestion];
+      document.getElementById("question").innerText = q.q;
+      const answersDiv = document.getElementById("answers");
+      answersDiv.innerHTML = "";
+      q.a.forEach((answer, index) => {
         const btn = document.createElement("button");
-        btn.textContent = ans;
+        btn.innerText = answer;
         btn.onclick = () => {
-          scores[q.t[idx]] += 1;
-          current++;
-          if (current < questions.length) {
+          answerCounts[index]++;
+          currentQuestion++;
+          if (currentQuestion < questions.length) {
             showQuestion();
           } else {
             showResult();
           }
         };
-        answerButtons.appendChild(btn);
+        answersDiv.appendChild(btn);
       });
     }
 
     function showResult() {
-      questionScreen.classList.remove("visible");
-      resultScreen.classList.add("visible");
-      const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-      vampireTypeSpan.textContent = sorted[0][0];
+      document.getElementById("quiz").classList.add("hidden");
+      const maxIndex = answerCounts.indexOf(Math.max(...answerCounts));
+      document.getElementById("resultText").innerHTML = results[maxIndex];
+      document.getElementById("result").classList.remove("hidden");
     }
   </script>
 </body>
