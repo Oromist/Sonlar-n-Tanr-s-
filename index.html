@@ -68,9 +68,11 @@
       transform: scale(1.05);
     }
     img {
-      max-width: 100%;
+      max-width: 250px;
+      width: 100%;
+      display: block;
+      margin: 20px auto 0;
       border-radius: 10px;
-      margin-top: 20px;
     }
   </style>
 </head>
@@ -103,55 +105,4 @@
       { q: "Aşk senin için?", a: ["İmkânsız", "Lanet", "Umut", "Geçici"] },
       { q: "Bir geceni nasıl anlatırsın?", a: ["Av", "Hüzün", "Tutku", "Kaçış"] },
       { q: "Bir düşmanın olsa?", a: ["İhanet eden", "Unutulmak", "Aynadaki yansıman", "Zaman"] },
-      { q: "Kendini en çok hangi renkle özdeşleştirirsin?", a: ["Bordo", "Siyah", "Granit", "Mavi"] },
-      { q: "Bir kelimeyle vampirliğini tanımla.", a: ["Açlık", "Yalnızlık", "Tutku", "Özgürlük"] }
-    ];
-
-    const results = [
-      "🩸 <strong>Gölgelerin Vampiri</strong>: Sessizlikte yaşarsın, kalabalıklarda kaybolursun. İçindeki yalnızlık gölgeleri bile ürkütür.",
-      "🧛‍♂️ <strong>Asil Vampir</strong>: Kurallara ve geçmişe bağlısın. Onurlu ama kırılgansın. Aşkı sonsuzlukta ararsın.",
-      "💔 <strong>Kayıp Ruh Vampiri</strong>: Anılar seni terk etmez. Her gecede geçmiş yankılanır. En büyük düşmanın kalbindir.",
-      "🔥 <strong>Ateşli Vampir</strong>: İçindeki tutku yüzyılları yakar. Aşkın da öfken de iz bırakır.",
-      "🌙 <strong>Ay Işığı Vampiri</strong>: Sessizliği ve huzuru seversin. Vampirlik senin için bir lanet değil, farkındalıktır.",
-      "⚰️ <strong>Karanlık Lanetli</strong>: Vampirlik seni değiştirdi. Kalbin karanlıkla atıyor, ama hâlâ bir kıvılcım arıyorsun."
-    ];
-
-    let currentQuestion = 0;
-    let answerCounts = [0, 0, 0, 0];
-
-    function startQuiz() {
-      document.querySelector("button").classList.add("hidden");
-      document.getElementById("quiz").classList.remove("hidden");
-      showQuestion();
-    }
-
-    function showQuestion() {
-      const q = questions[currentQuestion];
-      document.getElementById("question").innerText = q.q;
-      const answersDiv = document.getElementById("answers");
-      answersDiv.innerHTML = "";
-      q.a.forEach((answer, index) => {
-        const btn = document.createElement("button");
-        btn.innerText = answer;
-        btn.onclick = () => {
-          answerCounts[index]++;
-          currentQuestion++;
-          if (currentQuestion < questions.length) {
-            showQuestion();
-          } else {
-            showResult();
-          }
-        };
-        answersDiv.appendChild(btn);
-      });
-    }
-
-    function showResult() {
-      document.getElementById("quiz").classList.add("hidden");
-      const maxIndex = answerCounts.indexOf(Math.max(...answerCounts));
-      document.getElementById("resultText").innerHTML = results[maxIndex];
-      document.getElementById("result").classList.remove("hidden");
-    }
-  </script>
-</body>
-</html>
+      { q: "Kendini en çok hangi renkle özdeşleştirirsin?", a: ["Bordo", "Siyah", "G]()
