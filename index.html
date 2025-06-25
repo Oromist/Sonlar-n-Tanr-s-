@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sen Nasıl Bir Vampirsin?</title>
+  <!-- Cinzel Fontu -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -23,8 +24,8 @@
       font-size: 2em;
       color: #ff4444;
     }
-    .start-btn, .answers button {
-      background-color: #8b0000;
+    button {
+      background-color: #8b0000 !important;
       color: white;
       border: none;
       padding: 14px 20px;
@@ -32,12 +33,15 @@
       border-radius: 10px;
       cursor: pointer;
       transition: background-color 0.3s ease, transform 0.2s ease;
-      margin: 10px 0;
-      width: 100%;
     }
-    .start-btn:hover, .answers button:hover {
-      background-color: #a30000;
+    button:hover {
+      background-color: #a30000 !important;
       transform: scale(1.03);
+    }
+    .answers button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
     }
     .hidden {
       display: none;
@@ -57,16 +61,16 @@
       border-radius: 8px;
       text-decoration: none;
       font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
     a.link-button:hover {
       background-color: #a30000;
+      transform: scale(1.05);
     }
     img {
-      max-width: 250px;
-      width: 100%;
-      display: block;
-      margin: 20px auto 0;
+      max-width: 100%;
       border-radius: 10px;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -74,17 +78,14 @@
   <div class="container">
     <h1>Sen Nasıl Bir Vampirsin?</h1>
     <img src="https://www.epsilonyayingrubu.com/Icerik/Gorsel/Urun/9786259603148.jpg" alt="Sonların Tanrısı Kitap Kapağı" />
-    
-    <!-- Başla Butonu -->
-    <button id="startButton" class="start-btn">Teste Başla</button>
+    <br /><br />
+    <button onclick="startQuiz()">Teste Başla</button>
 
-    <!-- Soru Alanı -->
     <div id="quiz" class="hidden">
       <h2 id="question"></h2>
       <div class="answers" id="answers"></div>
     </div>
 
-    <!-- Sonuç Alanı -->
     <div id="result" class="result hidden">
       <h2>Vampir Türün:</h2>
       <p id="resultText"></p>
@@ -118,12 +119,11 @@
     let currentQuestion = 0;
     let answerCounts = [0, 0, 0, 0];
 
-    // Başla butonu çalışsın
-    document.getElementById("startButton").addEventListener("click", () => {
-      document.getElementById("startButton").classList.add("hidden");
+    function startQuiz() {
+      document.querySelector("button").classList.add("hidden");
       document.getElementById("quiz").classList.remove("hidden");
       showQuestion();
-    });
+    }
 
     function showQuestion() {
       const q = questions[currentQuestion];
@@ -133,7 +133,6 @@
       q.a.forEach((answer, index) => {
         const btn = document.createElement("button");
         btn.innerText = answer;
-        btn.className = "start-btn"; // kırmızı buton stillerini koru
         btn.onclick = () => {
           answerCounts[index]++;
           currentQuestion++;
